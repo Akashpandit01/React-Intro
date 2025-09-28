@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Virtual DOM Demo</title>
+  <!-- React and ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- Babel -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    button { margin: 5px 0; padding: 8px 12px; }
+    hr { margin: 20px 0; }
+  </style>
+</head>
+<body>
+
+  <h2>Vanilla JS DOM Update</h2>
+  <h1 id="vanilla-title">Original Title</h1>
+  <p>DOM Updates: <span id="vanilla-count">0</span></p>
+  <button id="vanilla-btn">Change Title (Vanilla JS)</button>
+
+  <hr>
+
+  <h2>React Virtual DOM Update</h2>
+  <div id="react-root"></div>
+
+  <script>
+    // ----------------------
+    // Vanilla JS
+    // ----------------------
+    let vanillaCount = 0;
+    const vanillaBtn = document.getElementById("vanilla-btn");
+    const vanillaTitle = document.getElementById("vanilla-title");
+    const vanillaCountDisplay = document.getElementById("vanilla-count");
+
+    vanillaBtn.addEventListener("click", () => {
+      vanillaTitle.textContent = "Title changed by Vanilla JS!";
+      vanillaCount++;
+      vanillaCountDisplay.textContent = vanillaCount;
+    });
+  </script>
+
+  <script type="text/babel">
+    // ----------------------
+    // React
+    // ----------------------
+    const { useState } = React;
+
+    function App() {
+      const [title, setTitle] = useState("Original Title");
+      const [updateCount, setUpdateCount] = useState(0);
+
+      const handleReactClick = () => {
+        setTitle("Title changed by React!");
+        setUpdateCount(prev => prev + 1);
+      };
+
+      return (
+        <div>
+          <h1>{title}</h1>
+          <p>DOM Updates: {updateCount}</p>
+          <button onClick={handleReactClick}>Change Title (React)</button>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("react-root"));
+    root.render(<App />);
+  </script>
+
+</body>
+</html>
